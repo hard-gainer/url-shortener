@@ -18,8 +18,8 @@ func main() {
 
 	storageType := flag.String("storage", "postgres", "Storage type")
 	flag.Parse()
-	slog.Info("initializing storage", "storage type", *storageType)
 
+	slog.Info("initializing storage", "storage type", *storageType)
 	var repo storage.Repository
 
 	switch *storageType {
@@ -44,5 +44,4 @@ func main() {
 
 	defer repo.Close()
 	slog.Info("storage successfully intialized")
-
 }
