@@ -77,6 +77,7 @@ func (repo *PostgresRepository) SaveURL(ctx context.Context, shortUrl, originalU
 	return id, nil
 }
 
+// Close closes a connection with the storage
 func (repo *PostgresRepository) Close() error {
 	repo.db.Close()
 	return nil
