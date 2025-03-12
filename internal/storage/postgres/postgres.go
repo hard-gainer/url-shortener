@@ -14,11 +14,6 @@ import (
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
-var (
-	ErrURLMappingExists   = errors.New("url mapping already exists")
-	ErrURLMappingNotFound = errors.New("url mapping not found")
-)
-
 // A postgres implementation of the repository
 type PostgresRepository struct {
 	db *pgxpool.Pool
@@ -47,7 +42,7 @@ func (repo *PostgresRepository) GetURL(ctx context.Context, shortUrl string) (mo
 
 	if err != nil {
 		if errors.Is(err, pgx.ErrNoRows) {
-			return models.Url{}, fmt.Errorf("%s: %w", op, ErrURLMappingNotFound)
+			return models.Url{}, fmt.Errorf("%s: %w", op, storage.ErrURLMappingNotFound)
 		}
 		return models.Url{}, fmt.Errorf("%s: %w", op, err)
 	}
@@ -69,7 +64,7 @@ func (repo *PostgresRepository) SaveURL(ctx context.Context, shortUrl, originalU
 	if err != nil {
 		var pgErr *pgconn.PgError
 		if errors.As(err, &pgErr) && pgErr.Code == "23505" {
-			return 0, fmt.Errorf("%s: %w", op, ErrURLMappingExists)
+			return 0, fmt.Errorf("%s: %w", op, storage.ErrURLMappingExists)
 		}
 		return 0, fmt.Errorf("%s: %w", op, err)
 	}
