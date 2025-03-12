@@ -4,7 +4,7 @@ import "time"
 
 type Url struct {
 	Id          int64
-	ShortUrl    string
-	OriginalUrl string
+	ShortURL    string
+	OriginalURL string
 	CreatedAt   time.Time
 }
