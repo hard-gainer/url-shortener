@@ -7,19 +7,6 @@ import (
 	"github.com/joho/godotenv"
 )
 
-// type Config struct {
-// 	DBConfig `yaml:"db"`
-// }
-
-// type DBConfig struct {
-// 	Path     string `yaml:"DB_URL" env:"DB_URL" env-default:"postgresql://root:password@localhost:5432/auth?sslmode=disable"`
-// 	User     string `yaml:"DB_USER" env:"DB_USER" env-default:"root"`
-// 	Password string `yaml:"DB_PASSWORD" env:"DB_PASSWORD" env-default:"password"`
-// 	Host     string `yaml:"DB_HOST" env:"DB_HOST" env-default:"localhost"`
-// 	Port     string `yaml:"DB_PORT" env:"DB_PORT" env-default:"5432"`
-// 	Name     string `yaml:"DB_NAME" env:"DB_NAME" env-default:"url-shortener"`
-// }
-
 type Config struct {
 	DBConfig
 }
