@@ -38,7 +38,7 @@ func (repo *PostgresRepository) GetURL(ctx context.Context, shortURL string) (mo
 		`SELECT id, short_url, original_url, created_at 
          FROM url_mappings  
          WHERE short_url = $1`,
-		shortURL).Scan(&url.Id, &url.ShortUrl, &url.OriginalUrl, &url.CreatedAt)
+		shortURL).Scan(&url.Id, &url.ShortURL, &url.OriginalURL, &url.CreatedAt)
 
 	if err != nil {
 		if errors.Is(err, pgx.ErrNoRows) {
