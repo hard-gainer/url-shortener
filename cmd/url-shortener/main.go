@@ -8,6 +8,7 @@ import (
 	"github.com/hard-gainer/url-shortener/internal/config"
 	"github.com/hard-gainer/url-shortener/internal/logger"
 	"github.com/hard-gainer/url-shortener/internal/storage"
+	"github.com/hard-gainer/url-shortener/internal/storage/memory"
 	"github.com/hard-gainer/url-shortener/internal/storage/postgres"
 )
 
@@ -23,8 +24,12 @@ func main() {
 
 	switch *storageType {
 	case "memory":
-		// TODO: memory storage initialization
-
+		var err error
+		repo, err = memory.NewMemory()
+		if err != nil {
+			slog.Error("failed to initialize memory storage", "error", err)
+			os.Exit(1)
+		}
 	case "postgres":
 		var err error
 		repo, err = postgres.NewPostgres(cfg)
@@ -32,11 +37,12 @@ func main() {
 			slog.Error("failed to initialize storage", "error", err)
 			os.Exit(1)
 		}
-		slog.Info("storage successfully intialized")
 	default:
 		slog.Error("unknown storage type", "error", *storageType)
 		os.Exit(1)
 	}
 
 	defer repo.Close()
+	slog.Info("storage successfully intialized")
+
 }
