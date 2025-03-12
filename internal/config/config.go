@@ -1,7 +1,6 @@
 package config
 
 import (
-	"fmt"
 	"os"
 
 	"github.com/joho/godotenv"
@@ -12,7 +11,7 @@ type Config struct {
 }
 
 type DBConfig struct {
-	Path     string
+	Url      string
 	User     string
 	Password string
 	Host     string
@@ -25,6 +24,7 @@ func InitConfig() *Config {
 		panic("No .env file found")
 	}
 
+	dbUrl := os.Getenv("DB_URL")
 	dbUser := os.Getenv("DB_USER")
 	dbPassword := os.Getenv("DB_PASSWORD")
 	dbHost := os.Getenv("DB_HOST")
@@ -33,22 +33,22 @@ func InitConfig() *Config {
 
 	cfg := &Config{
 		DBConfig: DBConfig{
-			User: dbUser,
+			Url:      dbUrl,
+			User:     dbUser,
 			Password: dbPassword,
-			Host: dbHost,
-			Port: dbPort,
-			Name: dbName,
+			Host:     dbHost,
+			Port:     dbPort,
+			Name:     dbName,
 		},
 	}
 
-	setUpDBUrl(cfg)
-
+	// setUpDBUrl(cfg)
 	return cfg
 }
 
-func setUpDBUrl(cfg *Config) {
-	url := fmt.Sprintf("postgresql://%s:%s@%s:%s/%s?sslmode=disable",
-		cfg.User, cfg.Password, cfg.Host,
-		cfg.Port, cfg.Name)
-	cfg.Path = url
-}
+// func setUpDBUrl(cfg *Config) {
+// 	url := fmt.Sprintf("postgresql://%s:%s@%s:%s/%s?sslmode=disable",
+// 		cfg.User, cfg.Password, cfg.Host,
+// 		cfg.Port, cfg.Name)
+// 	cfg.Path = url
+// }

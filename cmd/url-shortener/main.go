@@ -12,7 +12,7 @@ func main() {
 	logger.InitLogger()
 	cfg := config.InitConfig()
 
-	fmt.Println(cfg.Path)
+	fmt.Println(cfg.Url)
 	// storageType := flag.String("storage", "memory", "Storage type")
 
 	slog.Info("initializing storage")
