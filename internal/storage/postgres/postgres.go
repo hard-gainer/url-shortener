@@ -30,7 +30,7 @@ func NewPostgres(cfg *config.Config) (storage.Repository, error) {
 }
 
 // GetUrl retrieves the url from the storage by its short url
-func (repo *PostgresRepository) GetURL(ctx context.Context, shortUrl string) (models.Url, error) {
+func (repo *PostgresRepository) GetURL(ctx context.Context, shortURL string) (models.Url, error) {
 	const op = "storage.postgres.GetURL"
 	var url models.Url
 
@@ -38,7 +38,7 @@ func (repo *PostgresRepository) GetURL(ctx context.Context, shortUrl string) (mo
 		`SELECT id, short_url, original_url, created_at 
          FROM url_mappings  
          WHERE short_url = $1`,
-		shortUrl).Scan(&url.Id, &url.ShortUrl, &url.OriginalUrl, &url.CreatedAt)
+		shortURL).Scan(&url.Id, &url.ShortUrl, &url.OriginalUrl, &url.CreatedAt)
 
 	if err != nil {
 		if errors.Is(err, pgx.ErrNoRows) {
@@ -51,7 +51,7 @@ func (repo *PostgresRepository) GetURL(ctx context.Context, shortUrl string) (mo
 }
 
 // SaveUrl saves a new pair of short url and original url into the storage
-func (repo *PostgresRepository) SaveURL(ctx context.Context, shortUrl, originalUrl string) (int64, error) {
+func (repo *PostgresRepository) SaveURL(ctx context.Context, shortURL, originalURL string) (int64, error) {
 	const op = "storage.postgres.SaveURL"
 	var id int64
 
@@ -59,7 +59,7 @@ func (repo *PostgresRepository) SaveURL(ctx context.Context, shortUrl, originalU
 		`INSERT INTO url_mappings(short_url, original_url)
          VALUES($1, $2)
          RETURNING id`,
-		shortUrl, originalUrl).Scan(&id)
+		shortURL, originalURL).Scan(&id)
 
 	if err != nil {
 		var pgErr *pgconn.PgError

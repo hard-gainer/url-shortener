@@ -8,9 +8,9 @@ import (
 
 type Repository interface {
 	// GetUrl retrieves the url from the storage by its short url
-	GetURL(ctx context.Context, shortUrl string) (models.Url, error)
+	GetURL(ctx context.Context, shortURL string) (models.Url, error)
 	// SaveUrl saves a new pair of short url and original url into the storage
-	SaveURL(ctx context.Context, shortUrl, originalUrl string) (int64, error)
+	SaveURL(ctx context.Context, shortURL, originalURL string) (int64, error)
 	// Close closes a connection with the storage
 	Close() error
 }
