@@ -8,4 +8,7 @@ var (
 
 	// ErrURLMappingExists is returned when trying to create a short URL that already exists
 	ErrURLMappingExists = errors.New("url mapping already exists")
+
+    // ErrOriginalURLExists is returned when trying to shorten a URL that's already shortened
+    ErrOriginalURLExists = errors.New("original url already exists")
 )
