@@ -29,13 +29,12 @@ func NewMemory() (storage.Repository, error) {
 	}, nil
 }
 
+// GetURL retrieves the url from the storage by its short url
 func (repo *MemoryRepository) GetURL(ctx context.Context, shortURL string) (models.Url, error) {
 	const op = "storage.memory.GetURL"
 
-	select {
-	case <-ctx.Done():
-		return models.Url{}, ctx.Err()
-	default:
+	if err := ctx.Err(); err != nil {
+		return models.Url{}, err
 	}
 
 	repo.mutex.RLock()
@@ -57,13 +56,12 @@ func (repo *MemoryRepository) GetURL(ctx context.Context, shortURL string) (mode
 	return url, nil
 }
 
+// SaveURL saves a new pair of short url and original url into the storage
 func (repo *MemoryRepository) SaveURL(ctx context.Context, shortURL, originalURL string) (int64, error) {
 	const op = "storage.memory.SaveURL"
 
-	select {
-	case <-ctx.Done():
-		return 0, ctx.Err()
-	default:
+	if err := ctx.Err(); err != nil {
+		return 0, err
 	}
 
 	repo.mutex.Lock()
@@ -97,6 +95,5 @@ func (repo *MemoryRepository) SaveURL(ctx context.Context, shortURL, originalURL
 	return repo.lastID, nil
 }
 
-func (repo *MemoryRepository) Close() error {
-	return nil
+func (repo *MemoryRepository) Close() {
 }
