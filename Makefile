@@ -25,4 +25,7 @@ build-pg:
 build-mem:
 	go run cmd/url-shortener/main.go -storage=memory
 
-.PHONY: postgres createdb dropdb migrateup migratedown print-config build-pg build-mem
+test-coverage:
+	go test -v -cover ./...
+
+.PHONY: postgres createdb dropdb migrateup migratedown print-config build-pg build-mem test-coverage
