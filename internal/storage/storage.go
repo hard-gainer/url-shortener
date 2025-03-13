@@ -12,5 +12,5 @@ type Repository interface {
 	// SaveUrl saves a new pair of short url and original url into the storage
 	SaveURL(ctx context.Context, shortURL, originalURL string) (int64, error)
 	// Close closes a connection with the storage
-	Close() error
+	Close()
 }
