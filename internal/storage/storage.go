@@ -11,6 +11,8 @@ type Repository interface {
 	GetURL(ctx context.Context, shortURL string) (models.Url, error)
 	// SaveUrl saves a new pair of short url and original url into the storage
 	SaveURL(ctx context.Context, shortURL, originalURL string) (int64, error)
+	// OriginalURLExists checks if an original URL already exists in storage
+	OriginalURLExists(ctx context.Context, originalURL string) (string, bool, error)
 	// Close closes a connection with the storage
 	Close()
 }

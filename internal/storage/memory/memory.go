@@ -95,5 +95,18 @@ func (repo *MemoryRepository) SaveURL(ctx context.Context, shortURL, originalURL
 	return repo.lastID, nil
 }
 
+// OriginalURLExists checks if an original URL already exists in storage
+func (repo *MemoryRepository) OriginalURLExists(ctx context.Context, originalURL string) (string, bool, error) {
+    if err := ctx.Err(); err != nil {
+        return "", false, err
+    }
+
+    repo.mutex.RLock()
+    defer repo.mutex.RUnlock()
+
+    shortURL, exists := repo.originalToShort[originalURL]
+    return shortURL, exists, nil
+}
+
 func (repo *MemoryRepository) Close() {
 }

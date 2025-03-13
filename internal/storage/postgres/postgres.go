@@ -75,7 +75,9 @@ func (repo *PostgresRepository) SaveURL(ctx context.Context, shortURL, originalU
 
 	var existingShort string
 	err = tx.QueryRow(ctx,
-		`SELECT short_url FROM url_mappings WHERE original_url = $1`,
+		`SELECT short_url
+		 FROM url_mappings
+		 WHERE original_url = $1`,
 		originalURL).Scan(&existingShort)
 
 	if err == nil {
@@ -104,6 +106,27 @@ func (repo *PostgresRepository) SaveURL(ctx context.Context, shortURL, originalU
 	}
 
 	return id, nil
+}
+
+// OriginalURLExists checks if an original URL already exists in storage
+func (repo *PostgresRepository) OriginalURLExists(ctx context.Context, originalURL string) (string, bool, error) {
+    const op = "storage.postgres.OriginalURLExists"
+    var shortURL string
+
+    err := repo.db.QueryRow(ctx,
+        `SELECT short_url
+		 FROM url_mappings
+		 WHERE original_url = $1`,
+        originalURL).Scan(&shortURL)
+
+    if err != nil {
+        if errors.Is(err, pgx.ErrNoRows) {
+            return "", false, nil
+        }
+        return "", false, fmt.Errorf("%s: %w", op, err)
+    }
+
+    return shortURL, true, nil
 }
 
 // Close closes a connection with the storage
