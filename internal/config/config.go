@@ -33,7 +33,6 @@ func InitConfig() *Config {
 	if err := godotenv.Load(); err != nil {
 		panic("No .env file found")
 	}
-	// _ = godotenv.Load()
 
 	dbURL := os.Getenv("DB_URL")
 	dbUser := os.Getenv("DB_USER")
