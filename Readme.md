@@ -18,10 +18,47 @@
 }
 ```
 
-**Endpoint:** `GET /api/info/{shortURL}`
+**Endpoint:** `GET /{shortURL}`
+Делает редирект с укороченной ссылки на оригинальную.
 
 **Response:**
-Html code of original_url
+HTTP 301 redirect to the original URL.
+
+## Error Responses
+
+The API returns appropriate HTTP status codes and error messages:
+
+### Invalid Request Format
+```json
+{
+  "error": "Invalid request body"
+}
+```
+
+### URL Not Found
+```json
+{
+  "error": "Short URL not found"
+}
+```
+
+### Invalid URL Format
+```json
+{
+  "error": "Invalid URL format"
+}
+```
+
+**Endpoint:** `GET /api/info/{shortURL}`
+Возвращает информацию об укороченной ссылке без редиректа.
+
+**Response:**
+```json
+{
+    "short_url": "/e3Yc2CQVCJ",
+    "original_url": "https://www.google.com/search?q=%D0%BA%D0%BE%D1%88%D0%BA%D0%B8+%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D0%BA%D0%B8&sca_esv=200a9dc461e1f367&sxsrf=AHTn8zpSCQzR-dORKTsTaOIG2QKPrZzEYQ%3A1741963706360&source=hp&ei=ukHUZ9bDE4PIwPAPiv2U2QE&iflsig=ACkRmUkAAAAAZ9RPymbtILAXDO48rDBFLi5VKouolWpE&ved=0ahUKEwjWiLW_6ImMAxUDJBAIHYo-JRsQ4dUDCBg&uact=5&oq=%D0%BA%D0%BE%D1%88%D0%BA%D0%B8+%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D0%BA%D0%B8&gs_lp=Egdnd3Mtd2l6IhvQutC-0YjQutC4INC60LDRgNGC0LjQvdC60LgyBRAAGIAEMgUQABiABDIFEAAYgAQyBRAAGIAEMgUQABiABDIFEAAYgAQyBRAAGIAEMgUQABiABDIGEAAYFhgeMgYQABgWGB5IkSJQowxY6B9wAXgAkAEAmAGCAaABnwiqAQQxMy4xuAEDyAEA-AEBmAIPoALQCKgCCsICBxAjGCcY6gLCAgQQIxgnwgIKECMYgAQYJxiKBcICCxAAGIAEGLEDGIMBwgILEC4YgAQYsQMYgwHCAggQABiABBixA8ICERAuGIAEGLEDGNEDGIMBGMcBwgIIEC4YgAQYsQPCAg4QLhiABBixAxiDARiKBcICCxAuGIAEGLEDGNQCwgIOEAAYgAQYsQMYgwEYigXCAgsQLhiABBjHARivAcICBRAuGIAEwgIIEC4YgAQY1AKYAwnxBcbRpDpmqJDikgcEMTQuMaAHmK0B&sclient=gws-wiz#vhid=0qUTOpyBXYMBnM&vssid=_wEHUZ-e9N-38wPAPl86coQ0_36"
+}
+```
 
 
 ## Задание (Стажер-разработчик)
