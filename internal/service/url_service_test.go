@@ -30,7 +30,7 @@ func TestShortenURL_Success(t *testing.T) {
 	shortURL, err := service.ShortenURL(ctx, originalURL)
 
 	require.NoError(t, err)
-	assert.Len(t, shortURL, ShortURLLength + 1)
+	assert.Len(t, shortURL, ShortURLLength)
 
 	for _, char := range shortURL {
 		assert.True(t, strings.ContainsRune(Charset, char),

@@ -7,7 +7,6 @@ import (
 	"fmt"
 	"log/slog"
 	"math/big"
-	"time"
 
 	"github.com/hard-gainer/url-shortener/internal/storage"
 )
@@ -67,7 +66,7 @@ func (s *URLServiceImpl) ShortenURL(ctx context.Context, originalURL string) (st
 	return "", fmt.Errorf("%s: failed to generate unique short URL after %d attempts", op, MaxRetries)
 }
 
-// GetOriginalURL получает оригинальный URL по короткому URL
+// GetOriginalURL gets original URL by a shortend one 
 func (s *URLServiceImpl) GetOriginalURL(ctx context.Context, shortURL string) (string, error) {
 	const op = "service.URLServiceImpl.GetOriginalURL"
 
@@ -81,32 +80,15 @@ func (s *URLServiceImpl) GetOriginalURL(ctx context.Context, shortURL string) (s
 
 // generateShortURL generates random string with specified length from the set of symbols
 func generateShortURL() (string, error) {
-	timestamp := time.Now().UnixNano()
+	b := make([]byte, ShortURLLength)
 
-	salt, err := rand.Int(rand.Reader, big.NewInt(1000000))
-	if err != nil {
-		return "", err
+	for i := range b {
+		n, err := rand.Int(rand.Reader, big.NewInt(int64(len(Charset))))
+		if err != nil {
+			return "", err
+		}
+		b[i] = Charset[n.Int64()]
 	}
 
-	result := timestamp + salt.Int64()
-	return encodeNumber(result), nil
-}
-
-// encodeNumber encodes a number to a string with the use of Charset
-func encodeNumber(num int64) string {
-    base := int64(len(Charset))
-    var result string
-    
-    for num > 0 {
-        remainder := num % base
-        result = string(Charset[remainder]) + result
-        num /= base
-    }
-    
-	for len(result) < ShortURLLength {
-		num, _ := rand.Int(rand.Reader, big.NewInt(int64(len(Charset))))
-		result = string(Charset[num.Int64()]) + result
-	}
-    
-    return result
+	return string(b), nil
 }
