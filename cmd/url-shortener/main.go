@@ -54,7 +54,7 @@ func main() {
 
 	urlService := service.NewURLService(repo)
 
-	server := api.NewServer(":" + cfg.AppConfig.Port)
+	server := api.NewServer("0.0.0.0:" + cfg.AppConfig.Port)
     server.WithMiddleware(api.LoggingMiddleware)
 
 	urlHandler := api.NewURLHandler(urlService, cfg.AppConfig.URL)

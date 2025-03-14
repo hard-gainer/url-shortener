@@ -2,8 +2,6 @@ package config
 
 import (
 	"os"
-
-	"github.com/joho/godotenv"
 )
 
 // Config is a main config
@@ -30,9 +28,10 @@ type DBConfig struct {
 
 // InitConfig creates a new Config
 func InitConfig() *Config {
-	if err := godotenv.Load(); err != nil {
-		panic("No .env file found")
-	}
+	// if err := godotenv.Load(); err != nil {
+	// 	panic("No .env file found")
+	// }
+	// _ = godotenv.Load()
 
 	dbURL := os.Getenv("DB_URL")
 	dbUser := os.Getenv("DB_USER")
